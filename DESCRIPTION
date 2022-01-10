@@ -1,0 +1,40 @@
+Package: GEDI4R
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Elia",
+           family = "Vangi",
+           role = c("aut", "cre"),
+           email = "elia.vangi@unifi.it",
+           comment = c(ORCID = "https://orcid.org/0000-0002-9772-2258"))
+Description: An R package for NASA’s GEDI Level 4A data download, processing and visualization.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Imports: 
+    data.table,
+    doParallel,
+    ggExtra,
+    ggplot2,
+    gridExtra,
+    hdf5r,
+    httr,
+    proj4,
+    raster,
+    rGEDI,
+    sf,
+    snowfall,
+    viridis
+Depends: 
+    R (>= 2.10),
+    foreach,
+    snow
+Suggests: 
+    rmarkdown,
+    knitr,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3

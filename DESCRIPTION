@@ -23,7 +23,6 @@ Imports:
     httr,
     proj4,
     raster,
-    rGEDI,
     sf,
     snowfall,
     viridis

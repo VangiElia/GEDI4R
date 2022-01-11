@@ -25,8 +25,8 @@ library(GEDI4R)
 ## Getting started
 
 ```{r eval=FALSE}
-#Development version:
-install.packages("path/to/GEDI4R_0.0.0.9000.tar.gz", repos = NULL, type="source")
+#install.package("devtools")
+devtools::install_github("VangiElia/GEDI4R")
 #loading GEDI4R package
 library(GEDI4R)
 ```

@@ -8,8 +8,7 @@ Authors@R:
            email = "elia.vangi@unifi.it",
            comment = c(ORCID = "https://orcid.org/0000-0002-9772-2258"))
 Description: An R package for NASA’s GEDI Level 4A data download, processing and visualization.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: `use_gpl3_license()`
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

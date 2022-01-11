@@ -12,16 +12,6 @@ More information on Level 4A data can be found
 follows a simple name convention: all functions names start with `l4_` and are
 followed by a verb indicating the purpose of the function.
 
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-library(GEDI4R)
-```
-
-
 ## Getting started
 
 ```{r eval=FALSE}

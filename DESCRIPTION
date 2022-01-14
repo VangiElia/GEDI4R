@@ -25,7 +25,8 @@ Imports:
     raster,
     sf,
     snowfall,
-    viridis
+    viridis,
+    rnaturalearth
 Depends: 
     R (>= 2.10),
     foreach,

@@ -1,14 +1,14 @@
 # GEDI4R: A package for NASA's Global Ecosystem Dynamics Investigation (GEDI) Level 4A Data Visualizing and Processing.
 
 This package offers a set of functions to work with the GEDI Level 4A data. This
-dataset contains GEDI Level 4A (L4A) predictions of the aboveground biomass
+dataset contains GEDI Level 4A version 2.0 (L4A) predictions of the aboveground biomass
 density (AGBD; in Mg/ha) and estimates of the prediction standard error within
 each sampled geolocated laser footprint derived from parametric models that
 relate simulated GEDI Level 2A (L2A) waveform relative height (RH) metrics to
 field plot estimates of AGBD. The datasets is available for the period
 2019-04-18 to 2020-09-03.  
 More information on Level 4A data can be found
-[here](https://daac.ornl.gov/GEDI/guides/GEDI_L4A_AGB_Density.html). The package
+[here](https://daac.ornl.gov/GEDI/guides/GEDI_L4A_AGB_Density_V2.html). The package
 follows a simple name convention: all functions names start with `l4_` and are
 followed by a verb indicating the purpose of the function.
 
@@ -23,8 +23,8 @@ library(GEDI4R)
 
 ## Find and download GEDI data within your study area: `l4_download`
 
-`l4_download` uses `rGEDI::gedifinder` to find GEDI Level 2B data intersecting a
-user-defined extent and date range and uses the resulting paths to construct the
+`l4_download` uses `gedifinder` to find GEDI Level 2A data intersecting a
+user-defined extent and date range and uses the resulting paths to parse the
 GEDI Level 4A path. The list of the resulting path is downloaded in parallel
 using the `foreach` package.  
 At the first run of `l4_download`, users will need
@@ -77,21 +77,21 @@ file_download <- l4_download(
 )
 ```
 
-## Reading GEDI data: `l4_get` and `l4_getmulti`
+## Reading GEDI data: `l4_getmulti`
 
 After downloading, files can be read from the original file format (h5) with
-`l4_get` and `l4_getmulti` as `data.table` objects. The former function reads
-one file at a time, while the latter can accept a list or a vector of file paths
+`l4_getmulti` as `data.table` objects. The function reads
+can accept a list or a vector of file paths
 (as the output of `l4_download`) and read them in parallel, using the `snowfall`
-package.  
-Both functions remove by default footprints with AGBD values corrupted
+package. If the list of file path has lenght=1 the file will be read in single thread mode.
+The function can remove footprints with AGBD values corrupted
 (agbd<0), and can be used to filter footprints based on the tree cover threshold
 derived for the year 2010, from Hansen et al. (2013) and encoded as a percentage
 per output grid cell.  
-Both functions (but usually `l4_get`) can list the dataset
-names inside the structure of h5 files. This is useful for adding other columns
-to both functions' output datasets by specifying the argument `add_col`. See the
-Details section of `?l4_get` or `?l4_getmulti` for the default dataset extracted
+The functions can list the dataset names inside the structure of h5 files.
+This is useful for adding other columns to the functions's default output datasets
+by specifying the argument `add_col`. 
+See the Details section of `?l4_getmulti` for the default dataset extracted
 from the h5 file.
 
 
@@ -103,10 +103,10 @@ l4_zip <- system.file("extdata",
 #Unzipping GEDI level4A data
 file <- unzip(l4_zip,exdir = outdir)
 #list just datasets names inside h5 file
-dataname <- l4_get(file,just_colnames = T)
+dataname <- l4_getmulti(file,just_colnames = T)
 head(dataname,10)
-#return footprints acquired with a tree cover greater than 10%
-gediL4_path <- GEDI4R::l4_get(file,tct=10)
+#return footprints acquired with agbd greater than 0 and tree cover greater than 10%
+gediL4_path <- l4_getmulti(file,agbd_rm=0,tct=10)
 #select other columns to add to the default output.
 #if columns are already present in the default output they will be dropped
 col <-
@@ -116,7 +116,7 @@ col <-
     "agbd"#this will be dropped as it is included by default in the output
     )
 #get level 4 data with the user defined column binded
-gediL4 <- l4_get(file,add_col = col,tct=10)
+gediL4 <- l4_getmulti(file,add_col = col,agbd_rm=0,tct=10)
 ```
 
 ```{r}
@@ -141,8 +141,9 @@ l4_zip <- system.file("extdata",
 files <- lapply(l4_zip,unzip,exdir = outdir)
 #select the number of cores to be used.
 core <- ifelse(parallel::detectCores()-1<=length(file),parallel::detectCores()-1,length(file))
-#read, filter by tree cover threshold and merge all files
-l4_data <- l4_getmulti(files,ncore = core,tct=10,merge = T)
+#read, filter by agbd, tree cover threshold and merge all files.
+#With source=T a column with the source file for each observation will be added
+l4_data <- l4_getmulti(files,ncore = core,agbd_rm=0,tct=10,merge = T,source=T)
 ```
 
 ## Clipping GEDI data: `l4_clip`
@@ -194,13 +195,13 @@ list.files(outdir,pattern = "example",full.names = T)
 
 ## Plot GEDI data: `l4_plotagb` and `l4_plotprofile`
 
-
 Finally, the package implements two functions for plotting the data:
 `l4_plotagb` and `l4_plotprofile`.  
 The former function plots the location of footprints, the distribution of AGBD
 against the elevation, or both.  
 The latter function returns the AGBD against the elevation profile along the
-GEDI track.
+GEDI track. Note that plotting elevation profiles from GEDI data (l4_plotprofile) is only advisable for single beam/track pairs. Plotting profiles from a data.table concatenating multiple GEDI files (orbits) can be misleading by forcing an overlap of data from tracks at different locations.
+
 
 ```{r fig.align="center", fig.width=8, fig.height=8}
 #footprints locations

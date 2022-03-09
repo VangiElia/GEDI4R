@@ -197,8 +197,8 @@ l4_plotagb(clipped,type = "distribution",n=100,h=c(100,100))
 #along-track AGBD profile
 l4_plotprofile(clipped)
 ```
-<img align="right" src="https://github.com/carlos-alberto-silva/rGEDI/blob/master/readme/fig2.PNG"  width="400">
-<img align="right" src="https://github.com/carlos-alberto-silva/rGEDI/blob/master/readme/fig2.PNG"  width="400">
+<img align="right" src="https://github.com/VangiElia/GEDI4R/blob/main/readme/fig1.png"  width="400">
+<img align="right" src="https://github.com/VangiElia/GEDI4R/blob/main/readme/fig2.png"  width="400">
 
 ## Pre-processin chain: `l4_process`
 

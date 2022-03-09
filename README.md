@@ -179,26 +179,25 @@ file.remove(list.files(outdir,pattern = "example",full.names = T))
 
 Finally, the package implements two functions for plotting the data:
 `l4_plotagb` and `l4_plotprofile`.  
-The former function plots the location of footprints, the distribution of AGBD against the elevation, or both.  
+The former function can plots the location of footprints, the distribution of AGBD against the elevation, or both.  
 The latter function returns the AGBD against the elevation profile along the
 GEDI track. Note that plotting elevation profiles from GEDI data (l4_plotprofile) is only advisable for single beam/track pairs.
 Plotting profiles from a data.table concatenating multiple GEDI files (orbits) can be misleading by forcing an overlap of data from tracks at different locations.
 
 
-```{r fig.align="center", fig.width=8, fig.height=8}
-#footprints locations
-l4_plotagb(clipped,type = "location")
+```{r eval=FALSE}
+gediL4 <- l4_getmulti(l4)
+#footprints locations and AGBD distribution against elevation
+l4_plotagb(gediL4,,beam_id="all",type = "both",n=100,h=c(100,100))
 ```
-```{r fig.align="center",fig.width=8, fig.height=8}
-#AGBD distribution against elevation
-l4_plotagb(clipped,type = "distribution",n=100,h=c(100,100))
-```
-```{r fig.align="center", fig.width=8, fig.height=8}
+<img align="center" src="https://github.com/VangiElia/GEDI4R/blob/main/readme/fig1.png"  width="400">
+
+```{r eval=FALSE}
 #along-track AGBD profile
-l4_plotprofile(clipped)
+l4_plotprofile(gediL4,beam_id="all")
 ```
-<img align="right" src="https://github.com/VangiElia/GEDI4R/blob/main/readme/fig1.png"  width="400">
-<img align="right" src="https://github.com/VangiElia/GEDI4R/blob/main/readme/fig2.png"  width="400">
+<img align="center" src="https://github.com/VangiElia/GEDI4R/blob/main/readme/fig2.png"  width="400">
+
 
 ## Pre-processin chain: `l4_process`
 

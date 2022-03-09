@@ -1,3 +1,4 @@
+![](https://github.com/carlos-alberto-silva/rGEDI/blob/master/readme/fig1.png)<br/>
 # GEDI4R: A package for NASA's Global Ecosystem Dynamics Investigation (GEDI) Level 4A Data Visualizing and Processing.
 
 This package offers a set of functions to work with the GEDI Level 4A data. This

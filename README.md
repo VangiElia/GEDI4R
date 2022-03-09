@@ -80,11 +80,10 @@ file_download <- l4_download(
 ## Reading GEDI data: `l4_getmulti`
 
 After downloading, files can be read from the original file format (h5) with
-`l4_getmulti` as `data.table` objects. The function reads
-can accept a list or a vector of file paths
+`l4_getmulti` as `data.table` objects. The function can accept a list or a vector of file paths
 (as the output of `l4_download`) and read them in parallel, using the `snowfall`
 package. If the list of file path has lenght=1 the file will be read in single thread mode.
-The function can remove footprints with AGBD values corrupted
+The function remove by default footprints with AGBD values corrupted
 (agbd<0), and can be used to filter footprints based on the tree cover threshold
 derived for the year 2010, from Hansen et al. (2013) and encoded as a percentage
 per output grid cell.  
@@ -95,55 +94,35 @@ See the Details section of `?l4_getmulti` for the default dataset extracted
 from the h5 file.
 
 
-```{r results="hide"}
+```{r results="hide", eval=FALSE}
 outdir = tempdir()
 l4_zip <- system.file("extdata",
-                 "GEDI04_A_2020186052327_O08834_T03611_02_001_01.zip",
-                 package="GEDI4R")
+                      c("GEDI04_A_2020036151358_O06515_02_T00198_02_002_01_V002.zip",
+                        "GEDI04_A_2021150031254_O13948_03_T06447_02_002_01_V002.zip"
+                      ),
+                      package="GEDI4R")
 #Unzipping GEDI level4A data
-file <- unzip(l4_zip,exdir = outdir)
-#list just datasets names inside h5 file
-dataname <- l4_getmulti(file,just_colnames = T)
+l4 <- lapply(l4_zip,unzip,exdir = outdir)
+#list all dataset in h5 file
+dataname <- l4_getmulti(l4[[1]],just_colnames = T)
 head(dataname,10)
-#return footprints acquired with agbd greater than 0 and tree cover greater than 10%
-gediL4_path <- l4_getmulti(file,agbd_rm=0,tct=10)
+#read all footprint and merge them together.
+gediL4_path <- l4_getmulti(l4,merge=T)
 #select other columns to add to the default output.
 #if columns are already present in the default output they will be dropped
 col <-
   c("land_cover_data/leaf_off_flag",
     "agbd_pi_lower",
     "agbd_pi_upper",
-    "agbd"#this will be dropped as it is included by default in the output
+    "agbd"#this will be dropped as it is already included by default in the output.
     )
-#get level 4 data with the user defined column binded
-gediL4 <- l4_getmulti(file,add_col = col,agbd_rm=0,tct=10)
+#get level 4 data with the user defined column binded and with the source path of each observation
+#with source=T a column with the source path for each observation will be added
+gediL4 <- l4_getmulti(l4,add_col = col,source=T)
 ```
 
 ```{r}
-knitr::kable(head(gediL4_path[,c("date","tree_cover","agbd","agbd_se")]))
-```
-
-
-`l4_getmulti` can be used to read and merge a list of GEDI.h5 files, listed, for
-example,  with `l4_download`.
-
-
-```{r warning=FALSE, eval=FALSE}
-outdir = tempdir()
-l4_zip <- system.file("extdata",
-                     c("GEDI04_A_2020186052327_O08834_T03611_02_001_01.zip",
-                       "GEDI04_A_2020186065619_O08835_T00766_02_001_01.zip",
-                       "GEDI04_A_2020187043633_O08849_T04437_02_001_01.zip",
-                       "GEDI04_A_2020187060925_O08850_T01592_02_001_01.zip"
-                     ),
-                     package="GEDI4R")
-#Unzipping GEDI level4A data
-files <- lapply(l4_zip,unzip,exdir = outdir)
-#select the number of cores to be used.
-core <- ifelse(parallel::detectCores()-1<=length(file),parallel::detectCores()-1,length(file))
-#read, filter by agbd, tree cover threshold and merge all files.
-#With source=T a column with the source file for each observation will be added
-l4_data <- l4_getmulti(files,ncore = core,agbd_rm=0,tct=10,merge = T,source=T)
+knitr::kable(head(gediL4[,c("date","tree_cover","agbd","agbd_se")]))
 ```
 
 ## Clipping GEDI data: `l4_clip`
@@ -153,8 +132,8 @@ clip the data to the extent of a study area. To do so, `l4_clip` can be used.
 The function clip footprints by extent or vector boundary provided by the
 argument `clip`. Currently, it accepts a path to a shp or tif file, an object of
 class `sf`, a `Raster*` object, a numeric vector of coordinates or other objects
-from which an extent can be extracted. By specifying the argument `usebound=TRUE`
-the points will be clipped on the boundary of an `sf` object (or path from which
+from which an extent can be extracted. By specifying the argument `usegeometry=TRUE`
+foorprints will be clipped on the boundary of an `sf` object (or path from which
 an `sf` object can be created).  
 GEDI coordinates are by default in lon/lat format (EPSG 4326). The function will
 try to convert the extent of `clip` to lon/lat coordinate system to ensure
@@ -163,20 +142,22 @@ vector or a bbox object. In these cases, the user must check that the extent is 
 lon/lat projection.
 
 ```{r}
-#file path of Italian boundary
-bound <- system.file("extdata","Italy.shp",package="GEDI4R")
-#clipping on polygon extent 
-clipped <- l4_clip(gediL4,clip=bound,usegeometry = F)
-#clipping on polygon boundary 
-clipped <- l4_clip(gediL4,clip=bound,usegeometry = T)
-#clip using bbox
-#first we need to convert coordinates in lon/lat
-tmp <- raster::shapefile(bound)#read boundary
-box <- t(raster::bbox(tmp))#extract bounding box
-proj4string <- as.character(tmp@proj4string)#retrive original projection
-pj <- proj4::project(box, proj4string, inverse=TRUE)# Transformed data in lat lon
-box <-c(t(pj))
-clipped <- l4_clip(gediL4,clip=box)
+outdir = tempdir()
+l4_zip <- system.file("extdata",
+                     "GEDI04_A_2020036151358_O06515_02_T00198_02_002_01_V002.zip",
+                     package="GEDI4R")
+l4 <- unzip(l4_zip,exdir = outdir)
+#get GEDI data
+l4_data <- l4_getmulti(l4)
+#clip using vector of coordinates
+b_box <- c(-50,35,52,37)
+clipped <- l4_clip(l4_data,clip=b_box)
+#using Shapefile to clip
+bound <- system.file("extdata","bound4326.shp",package="GEDI4R")
+#with  extension
+clipped <- l4_clip(l4_data,clip=bound,usegeometry = F)
+#with  polygon boundaries
+clipped2 <- l4_clip(l4_data,clip=bound,usegeometry = T)
 ```
 
 ## Export GEDI data: `l4_convert`
@@ -185,22 +166,23 @@ After pre-processing, the next step is converting and exporting the data in a
 vector format, usually an ESRI Shapefile. This can be easily accomplished with
 the function `l4_convert`, which can also reproject the data to a user-defined
 coordinate reference system (specified via the EPSG code by the argument
-`epsg`).
+`epsg`). Note that in converting data to ESRI Shapefile, columns names will be abbreviated with a warning.
+The function is called for its side effects. It return NULL unless return_path=TRUE.
 
-```{r warning=FALSE}
-converted <- l4_convert(clipped,epsg = 32632,filename=paste0(outdir,"/example.shp"))
-list.files(outdir,pattern = "example",full.names = T)
+```{r}
+converted <- l4_convert(l4_data,epsg = 4326,filename=paste0(outdir,"/example.shp"),return_path = T,append=F)
+example <- sf::read_sf(converted)
+file.remove(list.files(outdir,pattern = "example",full.names = T))
 ```
-
 
 ## Plot GEDI data: `l4_plotagb` and `l4_plotprofile`
 
 Finally, the package implements two functions for plotting the data:
 `l4_plotagb` and `l4_plotprofile`.  
-The former function plots the location of footprints, the distribution of AGBD
-against the elevation, or both.  
+The former function plots the location of footprints, the distribution of AGBD against the elevation, or both.  
 The latter function returns the AGBD against the elevation profile along the
-GEDI track. Note that plotting elevation profiles from GEDI data (l4_plotprofile) is only advisable for single beam/track pairs. Plotting profiles from a data.table concatenating multiple GEDI files (orbits) can be misleading by forcing an overlap of data from tracks at different locations.
+GEDI track. Note that plotting elevation profiles from GEDI data (l4_plotprofile) is only advisable for single beam/track pairs.
+Plotting profiles from a data.table concatenating multiple GEDI files (orbits) can be misleading by forcing an overlap of data from tracks at different locations.
 
 
 ```{r fig.align="center", fig.width=8, fig.height=8}
@@ -215,6 +197,8 @@ l4_plotagb(clipped,type = "distribution",n=100,h=c(100,100))
 #along-track AGBD profile
 l4_plotprofile(clipped)
 ```
+<img align="right" src="https://github.com/carlos-alberto-silva/rGEDI/blob/master/readme/fig2.PNG"  width="400">
+<img align="right" src="https://github.com/carlos-alberto-silva/rGEDI/blob/master/readme/fig2.PNG"  width="400">
 
 ## Pre-processin chain: `l4_process`
 

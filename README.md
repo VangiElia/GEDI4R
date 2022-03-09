@@ -190,13 +190,13 @@ gediL4 <- l4_getmulti(l4)
 #footprints locations and AGBD distribution against elevation
 l4_plotagb(gediL4,,beam_id="all",type = "both",n=100,h=c(100,100))
 ```
-<img align="center" src="https://github.com/VangiElia/GEDI4R/blob/main/readme/fig1.png"  width="400">
+<img align="center" src="https://github.com/VangiElia/GEDI4R/blob/main/readme/fig1.png"  width="800">
 
 ```{r eval=FALSE}
 #along-track AGBD profile
 l4_plotprofile(gediL4,beam_id="all")
 ```
-<img align="center" src="https://github.com/VangiElia/GEDI4R/blob/main/readme/fig2.png"  width="400">
+<img align="center" src="https://github.com/VangiElia/GEDI4R/blob/main/readme/fig2.png"  width="800">
 
 
 ## Pre-processin chain: `l4_process`
@@ -214,59 +214,23 @@ Usually, the number of cores used by default is the best option. Modifying it
 can slow down the function.
 
 ```{r eval=FALSE}
-#specifying the path to GEDI level4A data (zip file)
-outdir  <-  tempdir()
-l4_zip <- system.file(
-  "extdata",
-  c(
-    "GEDI04_A_2020186052327_O08834_T03611_02_001_01.zip",
-    "GEDI04_A_2020186065619_O08835_T00766_02_001_01.zip",
-    "GEDI04_A_2020187043633_O08849_T04437_02_001_01.zip",
-    "GEDI04_A_2020187060925_O08850_T01592_02_001_01.zip"
-  ),
-  package = "GEDI4R"
-)
+outdir = tempdir()
+l4_zip <- system.file("extdata",
+                      c("GEDI04_A_2020036151358_O06515_02_T00198_02_002_01_V002.zip"
+                      ),
+                      package="GEDI4R")
 #Unzipping GEDI level4A data
-l4 <- lapply(l4_zip, unzip, exdir = outdir)
-bound <- system.file("extdata", "Italy.shp", package = "GEDI4R")
-#proces all files in chunk, each of 2 files, in sequence
-l4_data <-
-  l4_process(
-    l4,
-    nfile = 2,
-    clip = bound,
-    usegeometry = T,
-    epsg = 32632,
-    prefix = "block",
-    outdir,
-    parallel = F
-  )
-file.remove(l4_data)
+l4 <- unzip(l4_zip,exdir = outdir)
+#create 4 copy of GEDI file to test the function
+file.copy(from=l4,to=paste0(tools::file_path_sans_ext(l4),"_copy",1:4,".h5"))
+#path to Shapefile for clipping the data
+bound <- system.file("extdata","bound4326.shp",package="GEDI4R")
+#path to GEDI files
+l4_path <- list.files(outdir,pattern = "h5",full.names = T)
+#proces all files in chunk each of 2 files, in sequence
+l4_data <- l4_process(l4_path,nfile=2,clip=bound,epsg=4326,outdir=outdir,ext="shp",parallel=F,prefix = "ex")
+file.remove(list.files(outdir,full.names = T, pattern = "ex"))
 #in parallel
-l4_data <-
-  l4_process(
-    l4,
-    nfile = 2,
-    clip = bound,
-    usegeometry = T,
-    epsg = 32632,
-    prefix = "block",
-    outdir,
-    parallel = T
-  )
-file.remove(l4_data)
-#override the default number of cores to be used
-l4_data <-
-  l4_process(
-    l4,
-    nfile = 2,
-    clip = bound,
-    usegeometry = T,
-    epsg = 32632,
-    prefix = "block",
-    outdir,
-    parallel = T,
-    ncore = 4
-  )
-file.remove(l4_data)
+l4_data <- l4_process(l4_path,nfile=2,clip=bound,epsg=4326,outdir=outdir,ext="shp",parallel=T)
+file.remove(list.files(outdir,full.names = T, pattern = "ex"))
 ```

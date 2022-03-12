@@ -16,7 +16,7 @@ followed by a verb indicating the purpose of the function.
 ## Getting started
 
 ```{r eval=FALSE}
-#install.package("devtools")
+#install.packages("devtools")
 devtools::install_github("VangiElia/GEDI4R")
 #loading GEDI4R package
 library(GEDI4R)

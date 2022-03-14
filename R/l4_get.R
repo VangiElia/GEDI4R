@@ -53,7 +53,7 @@
 #'  \link[=data.table:data.table]{data.table}.
 #' @seealso \code{\link[=l4_getmulti]{l4_getmulti}},
 #'   \code{\link[=l4_process]{l4_process}}
-#' @export
+
 
 
 l4_get <- function(gediL4_path,just_colnames=F,add_col=NULL,tct=NULL){

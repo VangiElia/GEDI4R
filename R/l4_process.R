@@ -75,7 +75,8 @@ l4_process <- function(gediL4_path,nfile=NULL,clip=NULL,epsg=NULL,prefix="chunk"
   av_core <- parallel::detectCores()-1
   #args check
   if(is.null(nfile)){
-    nfile <- round(l/av_core)
+    nfile <- ceiling(l/av_core)
+    if(nfile==0)nfile<-1
   }
 
   stopifnot("gediL4_path is missing"=!missing(gediL4_path),

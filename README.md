@@ -236,4 +236,6 @@ l4_data <- l4_process(l4_path,nfile=2,clip=bound,epsg=4326,outdir=outdir,ext="sh
 file.remove(list.files(outdir,full.names = T, pattern = "ex"))
 ```
 
-The output of `l4_process` is the vector of file path listed in `outdir`. The number of resulted vector files 
+The output of `l4_process` is the vector of file path listed in `outdir`. 
+The number of resulted vector files is equal to the original number of h5 files divided by the argument `nfile`.
+The vector files thus obtained can simply be merged together, both in R or in any GIS software.

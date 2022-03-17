@@ -238,3 +238,7 @@ file.remove(list.files(outdir,full.names = T, pattern = "ex"))
 The output of `l4_process` is the vector of file path listed in `outdir`. 
 The number of resulted vector files is equal to the original number of h5 files divided by the argument `nfile`.
 The vector files thus obtained can simply be merged together, both in R or in any GIS software.
+
+# Reporting issue
+
+Please report any issue regarding the GEDI4R package at https://github.com/VangiElia/GEDI4R/issues

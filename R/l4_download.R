@@ -142,24 +142,16 @@ l4_download <-
     daterange <- c(from, to)
 
     # Get path to GEDI2A data
-    gLevel2B <-
+    gLevel4 <-
       gedifinder(
-        product = "GEDI02_A",
         ul_lat,
         ul_lon,
         lr_lat,
         lr_lon,
-        version = "002",
         daterange = daterange
       )
 
-    if(length(gLevel2B)==0){stop("there are no GEDI files for this date or coordinates")}
-    #Built path fo GEDI4A by changing the source
-    gLevel4 <-
-      paste0(
-        "https://daac.ornl.gov/daacdata/gedi/GEDI_L4A_AGB_Density_V2/data/GEDI04_A",
-        substr(basename(gLevel2B), 9, nchar(basename(gLevel2B))-12),"2_01_V002.h5"
-      )
+    if(length(gLevel4)==0){stop("there are no GEDI files for this date or coordinates")}
     message(length(gLevel4), " files found.")
 
     if (just_path) {

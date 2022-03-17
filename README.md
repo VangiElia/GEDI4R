@@ -24,9 +24,8 @@ library(GEDI4R)
 
 ## Find and download GEDI data within your study area: `l4_download`
 
-`l4_download` uses `gedifinder` to find GEDI Level 2A data intersecting a
-user-defined extent and date range and uses the resulting paths to parse the
-GEDI Level 4A path. The list of the resulting path is downloaded in parallel
+`l4_download` uses the `gedifinder` to find GEDI Level 4A data intersecting a
+user-defined extent and date range. The list of the resulting path is downloaded in parallel
 using the `foreach` package.  
 At the first run of `l4_download`, users will need
 to enter their Earth Explorer Login Information (if you do not have an account,

@@ -7,7 +7,7 @@ density (AGBD; in Mg/ha) and estimates of the prediction standard error within
 each sampled geolocated laser footprint derived from parametric models that
 relate simulated GEDI Level 2A (L2A) waveform relative height (RH) metrics to
 field plot estimates of AGBD. The datasets is available for the period
-2019-04-18 to 2020-09-03.  
+2019-04-18 to 2021-08-05.  
 More information on Level 4A data can be found
 [here](https://daac.ornl.gov/GEDI/guides/GEDI_L4A_AGB_Density_V2.html). The package
 follows a simple name convention: all functions names start with `l4_` and are

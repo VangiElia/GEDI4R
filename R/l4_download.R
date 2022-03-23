@@ -2,7 +2,7 @@
 #' DOWNLOAD GEDI level 4A data from DAACL.ORNL
 #'
 #' Download all GEDI footprints from
-#' \href{https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1986}{DAACL.ORNL}
+#' \href{https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=2056}
 #' website that intersect a study area, defined as an extent in lon/lat
 #' coordinates. The footprints are located within the global latitude band
 #' observed by the International Space Station (ISS), nominally 51.6 degrees N

@@ -64,9 +64,9 @@ gedifinder <- function(ul_lat,
   # CMR API base url
   cmrurl <- 'https://cmr.earthdata.nasa.gov/search/'
   doisearch  <-  paste0(cmrurl , 'collections.json?doi=' , doi)
-  request <- GET(doisearch)
-  stop_for_status(request)
-  concept_id <- content(request, "parsed")$feed$entry[[1]]$id
+  request <- httr::GET(doisearch)
+  httr::stop_for_status(request)
+  concept_id <- httr::content(request, "parsed")$feed$entry[[1]]$id
   version <- "002"
   page <- 1
   bbox <- paste(ul_lon, lr_lat, lr_lon, ul_lat, sep = ",")

@@ -1,7 +1,7 @@
 #' Get  AGBD data from a list of GEDI Level 4 file path
 #'
 #' Get GEDI L4 data from h5 file format. See
-#' \href{https://daac.ornl.gov/GEDI/guides/GEDI_L4A_AGB_Density_V2.html}{here} for
+#' \href{https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=2056}{here} for
 #' more documentation on GEDI L4 data. The function use the
 #' \link[snowfall:snowfall]{snowfall} package to get data in parallel. There
 #' could be memory allocation problems for an high number of file path. This is
@@ -53,8 +53,9 @@
 #'   standard error
 #'   \item \emph{agbd}: Aboveground biomass density (Mg/ha)
 #'   }
-#'   For DOWNLOADING more detailed information on GEDI Level 4A data (version 2)
+#'   For DOWNLOADING more detailed information on GEDI Level 4A data (version 2.1)
 #'   see the
+#'   \href{https://daac.ornl.gov/daacdata/gedi/GEDI_L4A_AGB_Density_V2_1/comp/GEDI_L4A_AGB_Density_V2_1.pdf}{user guide} and
 #'   \href{https://daac.ornl.gov/daacdata/gedi/GEDI_L4A_AGB_Density_V2/comp/GEDI_L4A_V2_Product_Data_Dictionary.pdf}{product data dictionary}
 #'   Note that by default the function will dropp all footprint in which agbd<0.
 #'   These observations are considered sensor errors.

@@ -58,7 +58,15 @@ gedifinder <- function(ul_lat,
                        lr_lon,
                        daterange = NULL) {
   
-  concept_ids <- "C2237824918-ORNL_CLOUD"
+  #get concept id of GEDI level 4A last version
+  # GEDI L4A DOI
+  doi  <-  '10.3334/ORNLDAAC/2056'
+  # CMR API base url
+  cmrurl <- 'https://cmr.earthdata.nasa.gov/search/'
+  doisearch  <-  paste0(cmrurl , 'collections.json?doi=' , doi)
+  request <- GET(doisearch)
+  stop_for_status(request)
+  concept_id <- content(request, "parsed")$feed$entry[[1]]$id
   version <- "002"
   page <- 1
   bbox <- paste(ul_lon, lr_lat, lr_lon, ul_lat, sep = ",")

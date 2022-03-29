@@ -2,15 +2,16 @@
 # GEDI4R: A package for NASA's Global Ecosystem Dynamics Investigation (GEDI) Level 4A Data Visualizing and Processing.
 
 This package offers a set of functions to work with the GEDI Level 4A data. This
-dataset contains GEDI Level 4A version 2.0 (L4A) predictions of the aboveground biomass
+dataset contains GEDI Level 4A version 2.1 (L4A) predictions of the aboveground biomass
 density (AGBD; in Mg/ha) and estimates of the prediction standard error within
 each sampled geolocated laser footprint derived from parametric models that
 relate simulated GEDI Level 2A (L2A) waveform relative height (RH) metrics to
 field plot estimates of AGBD. The datasets is available for the period
-2019-04-18 to 2021-08-05.  
+2019-04-18 to 2021-11-23.  
 More information on Level 4A data can be found
-[here](https://daac.ornl.gov/GEDI/guides/GEDI_L4A_AGB_Density_V2.html). The package
-follows a simple name convention: all functions names start with `l4_` and are
+[here](https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=2056). 
+To download the  GEDI L4A user guide plese visit [this link](https://daac.ornl.gov/daacdata/gedi/GEDI_L4A_AGB_Density_V2_1/comp/GEDI_L4A_AGB_Density_V2_1.pdf)
+The package follows a simple name convention: all functions names start with `l4_` and are
 followed by a verb indicating the purpose of the function.
 
 ## Getting started

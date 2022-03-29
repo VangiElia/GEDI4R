@@ -51,7 +51,7 @@ List of file path in \code{outdir}
 }
 \description{
 Download all GEDI footprints from
-\href{https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=2056}
+\href{https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=2056} 
 website that intersect a study area, defined as an extent in lon/lat
 coordinates. The footprints are located within the global latitude band
 observed by the International Space Station (ISS), nominally 51.6 degrees N
@@ -66,7 +66,6 @@ with the \code{\link[doParallel]{doParallel}} configuration. If a file with
 the same name is already presented in \code{outdir} it will be overwrite.
 }
 \examples{
-
 #retrive Italy bound
 bound <- sf::st_as_sf(raster::getData('GADM', country='ITA', level=1))
 ex <- raster::extent(bound)

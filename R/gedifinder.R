@@ -2,9 +2,8 @@
 #' GEDI finder
 #'
 #' @description This function finds the exact granule(s) that contain GEDI level 4A data
-#'   for a given region of interest and date range. This function is adapted from
-#'   the package rGEDI, developed by Silva et al., (2020).
-#'
+#'   for a given region of interest and date range.
+
 #' @param ul_lat Numeric. Upper left (ul) corner coordinates, in lat (decimal
 #'   degrees) for the bounding box of the area of interest.
 #' @param ul_lon Numeric. Upper left (ul) corner coordinates, in lon (decimal

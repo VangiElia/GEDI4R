@@ -79,7 +79,7 @@ gedifinder <- function(ul_lat,
   )
   request_url <- sprintf(
     url_format,
-    concept_ids,
+    concept_id,
     bbox
   )
   

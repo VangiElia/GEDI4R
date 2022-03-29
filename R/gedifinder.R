@@ -59,7 +59,7 @@ gedifinder <- function(ul_lat,
                        lr_lon,
                        daterange = NULL) {
   
-  concept_ids <- "C2191500133-ORNL_CLOUD"
+  concept_ids <- "C2237824918-ORNL_CLOUD"
   version <- "002"
   page <- 1
   bbox <- paste(ul_lon, lr_lat, lr_lon, ul_lat, sep = ",")

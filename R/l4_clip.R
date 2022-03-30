@@ -128,7 +128,7 @@ l4_clip <- function (gediL4,clip,usegeometry=NULL,tct=NULL) {
         newFile <- clipped
       }
     } else if(any(class(clip)%in%c("sf","data.frame"))){
-      bound <- sf::st_transform(bound, 4326)
+      bound <- sf::st_transform(clip, 4326)
       sf_ob <- sf::st_as_sf(gediL4,coords=c("lon_lowestmode","lat_lowestmode"))
       sf::st_crs(sf_ob) <- 4326
       #this is the slowest part of the code

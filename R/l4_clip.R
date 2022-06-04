@@ -85,7 +85,7 @@ l4_clip <- function (gediL4,clip,usegeometry=NULL,tct=NULL) {
       }
     } else if (any(class(clip) %in% c("sf", "data.frame"))) {
       message("Sf object detected")
-      bbox <- sf::st_bbox(aoi)
+      bbox <- sf::st_bbox(clip)
       bbox  <-  sf::st_bbox(
         sf::st_transform(
           sf::st_as_sfc(bbox),

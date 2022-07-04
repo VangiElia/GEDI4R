@@ -143,7 +143,7 @@ l4_download <-
     #time period
     daterange <- c(from, to)
 
-    # Get path to GEDI2A data
+    # Get path to GEDI4A data
     gLevel4 <-
       gedifinder(
         ul_lat,
@@ -154,7 +154,6 @@ l4_download <-
       )
 
     if(length(gLevel4)==0){stop("there are no GEDI files for this date or coordinates")}
-    #Built path fo GEDI4A by changing the source
     message(length(gLevel4), " files found.")
 
     if (just_path) {

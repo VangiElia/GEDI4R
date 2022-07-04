@@ -153,14 +153,26 @@ l4_download <-
         daterange = daterange
       )
 
-    if(length(gLevel4)==0){stop("there are no GEDI files for this date or coordinates")}
-    message(length(gLevel4), " files found.")
-
+   lg <- length(gLevel4)
+   if(lg==0){stop("there are no GEDI files for this date or coordinates")}
+   
     if (just_path) {
       return(gLevel4)
       stop(invisible())
     }
+    
+    #check for existing GEDI file in outdir
+    pre <- list.files(outdir,pattern = "h5")
+    
+   if(length(pre)!=0) {
+     gLevel4 <-
+       gLevel4[!basename(tools::file_path_sans_ext(gLevel4)) %in% basename(tools::file_path_sans_ext(pre))]
+     nlg <- length(gLevel4)
+     message(lg, " files found, of wich ",lg-nlg, " already downloaded in ", outdir)
+     
+   }else{ message(lg, " files found.")}
 
+    #subset GEDI files
     if (!is.null(subset) && is.numeric(subset)) {
       gLevel4 <- gLevel4[subset]
     }

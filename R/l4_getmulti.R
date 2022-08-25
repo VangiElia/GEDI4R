@@ -164,7 +164,7 @@ l4_getmulti <- function(gediL4_path,just_colnames=F,add_col=NULL,tct=NULL,ncore=
                                     "land_cover_data/pft_class",
                                     "agbd_se",
                                     "agbd",
-                                    "xvar
+                                    "xvar"
                                    
             )]
 

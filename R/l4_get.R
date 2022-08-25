@@ -135,7 +135,7 @@ l4_get <- function(gediL4_path,just_colnames=F,add_col=NULL,tct=NULL){
           )]
 
         if(length(add_col)==0){
-          message("all columns selected are already present in the defaul output")
+          message("all other columns selected are already present in the defaul output")
         }else {
           df_add_col <- data.table::data.table()
           for (j in add_col) {

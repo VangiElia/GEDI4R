@@ -128,7 +128,8 @@ l4_get <- function(gediL4_path,just_colnames=F,add_col=NULL,tct=NULL){
             "land_cover_data/landsat_treecover",
             "land_cover_data/pft_class",
             "agbd_se",
-            "agbd"
+            "agbd",
+            "xvar
             
           )]
 

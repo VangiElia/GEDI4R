@@ -56,7 +56,7 @@ subsequent elements are slope coefficients
 entered in the selected model to estimate AGBD
 }
 For more information on these data see the Frequently asked question
-\href{https://daac.ornl.gov/GEDI/guides/GEDI_L4A_AGB_Density_V2_1.html#datacharact}{here}.
+\href{https://daac.ornl.gov/GEDI/guides/GEDI_L4A_AGB_Density_V2_1.html#acqmatmethods}{here}.
 Note that by default the function will drop all footprint in which agbd<0.
 These observations are considered sensor errors.
 }

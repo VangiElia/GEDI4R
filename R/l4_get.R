@@ -10,7 +10,8 @@
 #' @param just_colnames Logical: if TRUE, the function return the dataset
 #'   names in the h5 file. Useful to get names for the argument \code{add_col}.
 #' @param add_col Character vector of extra datasets names to \code{cbind} to
-#'   the default output. Names already present will be dropped.
+#'   the default output. Names already present will be dropped. 
+#'   For extracting the "xvar" info, the function \code{l4_get_xvar} should be used.
 #' @param tct Numeric: tree cover threshold to filter GEDI data.
 #' @details Columns specification: Flag indicating likely invalid waveform
 #'   (1=valid,0=invalid).

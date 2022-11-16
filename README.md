@@ -27,7 +27,7 @@ library(GEDI4R)
 
 `l4_download` uses the `gedifinder` to find GEDI Level 4A data intersecting a
 user-defined extent and date range. The list of the resulting path is downloaded in parallel
-using the `foreach` package.  
+using the `foreach` package. Note that if the number of files to download is less than the available number of cores, the function `l4_download` will uses as many cores as the numebr of file, for efficency reason.
 At the first run of `l4_download`, users will need
 to enter their Earth Explorer Login Information (if you do not have an account,
 sign up at this

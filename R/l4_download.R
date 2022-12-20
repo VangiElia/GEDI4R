@@ -180,7 +180,7 @@ l4_download <-
     #subset GEDI files
     if (!is.null(subset) && is.numeric(subset)) {
       if(length(subset)>length(gLevel4)){
-        warning("the length of subset is greater than the number of files. Subsetting will not be done")
+        warning("the length of subset vector is greater than the number of files to be download. Subsetting will not be done.")
         }else{ gLevel4 <- gLevel4[subset]}
     }
 

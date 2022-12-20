@@ -80,7 +80,10 @@ l4_download <-
            outdir=getwd(),
            just_path = F,
            subset = NULL) {
-
+    
+    op <- options("warn")
+    on.exit(options(op))
+    options(warn=1)
     #define function for building netrc file with access credentials
     getnetrc <- function (dl_dir) {
       netrc <- file.path(dl_dir, "netrc")

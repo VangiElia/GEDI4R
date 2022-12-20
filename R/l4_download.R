@@ -178,9 +178,7 @@ l4_download <-
     if (!is.null(subset) && is.numeric(subset)) {
       if(length(subset)>length(gLevel4)){
         warning("the length of subset is greater than the number of files. Subsetting will not be done")
-        break
-        }
-      gLevel4 <- gLevel4[subset]
+        }else{ gLevel4 <- gLevel4[subset]}
     }
 
     #set ncore equal to the number of files found or to the user defined value
